@@ -11,7 +11,7 @@ class StoreappointmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreappointmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'date' => 'required|date|after:today',
+            'time'        => 'required',
+            'statut'       => 'in:pending,approved,rejected',
         ];
     }
 }

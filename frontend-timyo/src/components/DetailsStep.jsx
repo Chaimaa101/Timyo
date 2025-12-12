@@ -1,17 +1,9 @@
 import React from "react";
+import { useAppointment } from "../context/AppointmentProvider";
 
-export const DetailsStep = ({
-  firstName,
-  lastName,
-  email,
-  phone,
-  setFirstName,
-  setLastName,
-  setEmail,
-  setPhone,
-  next,
-  back,
-}) => {
+export const DetailsStep = ({ back, next }) => {
+   const { firstName, setFirstName, lastName, setLastName, email, setEmail } =
+    useAppointment();
   return (
     <div>
       <p className="text-lg font-medium mb-4">Enter your details:</p>
@@ -42,16 +34,6 @@ export const DetailsStep = ({
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-lime-800"
-        />
-      </div>
-
-      <div className="mb-6">
-        <label className="block mb-1 text-sm font-medium">Phone</label>
-        <input
-          type="text"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
           className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-lime-800"
         />
       </div>

@@ -3,60 +3,59 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\Return_;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
-        try {
-            return User::all();
-        } catch (\Throwable $th) {
-            return $th;
-        }
+        $users = User::all();
+        return $users;
     }
 
    
-
-    /**
-     * Display the specified resource.
-     */
     public function show(User $user)
     {
-        try {
-            return $user;
-            
-        } catch (\Throwable $th) {
-            return $th;
-        }
+        return $user;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, User $user)
     {
+        try{
+             $validated = $request->validate([
+            'role' => 'sometimes|in:membre,admin',
+        ]);
+
+        $user->update($validated);
+
+        return [
+            'message' => 'Utilisateur mis à jour avec succès',
+            'user' => $user
+        ];
+        }catch(Exception $e){
+            return [
+            'error' => $e->getMessage()
+            ];
+        }
+       
+    }
+   
+    public function destroy(User $user)
+    {
         try {
-            //code...
-        } catch (\Throwable $th) {
-            //throw $th;
+            $user->delete();
+
+        return response()->json([
+            'message' => 'Utilisateur supprimé avec succès'
+        ]);
+        
+        } catch (Exception $e) {
+              return [
+            'error' => $e->getMessage()
+            ];
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        //
-    }
 }

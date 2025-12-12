@@ -1,11 +1,22 @@
-import axios from "axios"
+import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'http://localhost:8000', // Set the base URL here
-    withCredentials: true, // Crucial for sending cookies
+    baseURL: 'http://127.0.0.1:8000/api',
+    withCredentials: true, 
+    // headers: {
+    //     'X-XSRF-TOKEN':  decodeURIComponent(document.cookie
+    //     .split("; ")
+    //     .find((row) => row.startsWith("XSRF-TOKEN="))
+    //     ?.split("=")[1])
+
+    // }
+
 });
-   await api.get('/sanctum/csrf-cookie');
 
-
+export const getCsrfCookie = () => {
+    return axios.get('http://localhost:8000/sanctum/csrf-cookie', {
+        withCredentials: true,
+    });
+};
 
 export default api;

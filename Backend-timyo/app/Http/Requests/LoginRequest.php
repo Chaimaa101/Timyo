@@ -4,11 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateappointmentRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     */
+     * Determine if the user is authorized to make this request */
     public function authorize(): bool
     {
         return true;
@@ -22,9 +21,8 @@ class UpdateappointmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => 'sometimes|date|after:today',
-            'time'        => 'sometimes|time',
-            'statut'       => 'sometimes|in:pending,approved,rejected',
+            'email' => 'required|email|exists:users',
+            'password' => 'required'
         ];
     }
 }

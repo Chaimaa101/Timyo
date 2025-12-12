@@ -1,12 +1,9 @@
 import React from "react";
+import { useAppointment } from "../context/AppointmentProvider";
 
-export const ServiceStep = ({
-  treatment,
-  setTreatment,
-  doctor,
-  setDoctor,
-  next,
-}) => {
+
+export const ServiceStep = ({  next }) => {
+  const { service, setService, doctor, setDoctor } = useAppointment();
   return (
     <div>
       <p className="text-lg font-medium mb-4">Please select service:</p>
@@ -14,8 +11,8 @@ export const ServiceStep = ({
       <div className="mb-6">
         <label className="block mb-1 text-sm font-medium">Treatment</label>
         <select
-          value={treatment}
-          onChange={(e) => setTreatment(e.target.value)}
+          value={service}
+          onChange={(e) => setService(e.target.value)}
           className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-lime-800"
         >
           <option value="">Select treatment</option>

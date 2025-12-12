@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('date');
             $table->time('time');
+            $table->string('docter');
+            $table->string('service');
             $table->enum('statut',['approved','rejected','pending'])->default('pending');
             $table->timestamps();
         });

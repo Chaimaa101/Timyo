@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\appointment;
 use App\Http\Requests\StoreappointmentRequest;
 use App\Http\Requests\UpdateappointmentRequest;
-use PhpParser\Node\Stmt\TryCatch;
+use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
@@ -21,27 +21,29 @@ class AppointmentController extends Controller
         }
     }
 
-    public function myAppointment()
+    public function myAppointment(Request $request)
     {
-        //
+        try {
+            return $request->user()->appointments()->get();
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
- 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreappointmentRequest $request)
     {
-        
+        try {
+            $data = $request->validated();
+            $request->user()->appointments()->create($data);
+            return ['message' => 'done'];
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(appointment $appointment)
-    {
-        //
-    }
 
 
     /**
@@ -49,7 +51,13 @@ class AppointmentController extends Controller
      */
     public function update(UpdateappointmentRequest $request, appointment $appointment)
     {
-        //
+        try {
+            $data = $request->validated();
+            $appointment->update($data);
+            return ['message' => 'done'];
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
     /**
@@ -57,6 +65,11 @@ class AppointmentController extends Controller
      */
     public function destroy(appointment $appointment)
     {
-        //
+        try {
+            $appointment->delete();
+            return ['message' => 'done'];
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 }

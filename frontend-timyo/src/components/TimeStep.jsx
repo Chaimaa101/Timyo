@@ -1,6 +1,10 @@
 import React from "react";
+import { useAppointment } from "../context/AppointmentProvider";
 
-export const TimeStep = ({ date, setDate, time, setTime, next, back }) => {
+
+export const TimeStep = ({ back, next }) => {
+   const { date, setDate, time, setTime } = useAppointment();
+
   return (
     <div>
       <p className="text-lg font-medium mb-4">Select date and time:</p>

@@ -1,13 +1,9 @@
 import React from "react";
+import { useAppointment } from "../context/AppointmentProvider";
 
-export const DoneStep = ({
-  treatment,
-  doctor,
-  date,
-  time,
-  firstName,
-  lastName,
-}) => {
+
+export const DoneStep = ( ) => {
+  const { service,doctor, date, time, firstName, lastName } = useAppointment();
   return (
     <div className="text-center py-10">
       <h2 className="text-2xl font-semibold mb-4">Appointment Confirmed</h2>
@@ -15,7 +11,7 @@ export const DoneStep = ({
 
       <div className="bg-gray-50 p-6 rounded-xl text-left inline-block">
         <p>
-          <strong>Treatment:</strong> {treatment}
+          <strong>Service:</strong> {service}
         </p>
         <p>
           <strong>Doctor:</strong> {doctor}

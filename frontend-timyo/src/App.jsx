@@ -8,13 +8,14 @@ import ListAppointment from "./pages/Admin/ListAppointment";
 import ListeUsers from "./pages/Admin/ListeUsers";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import UserDashboard from "./pages/User/UserDashboard";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <>
+      <Toaster position="top-right" />
       <BrowserRouter>
         <Routes>
-
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
