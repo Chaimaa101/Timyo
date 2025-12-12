@@ -38,7 +38,7 @@ function AuthProvider({ children }) {
 
       await checkAuth();
     } catch (error) {
-      toast.error(
+      console.log(
         "Login error: " +
           (error.response?.data?.message || "Invalid credentials")
       );
