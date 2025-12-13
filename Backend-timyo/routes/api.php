@@ -18,15 +18,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+   Route::get('/user', [AuthController::class, 'me']);
     
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 
-route::apiResource('appointment', AppointmentController::class);
+route::apiResource('/appointments', AppointmentController::class);
 route::apiResource('users', UserController::class);
 
 

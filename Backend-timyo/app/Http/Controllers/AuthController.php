@@ -19,29 +19,34 @@ class AuthController extends Controller
 
         $user = User::create($validated);
 
-         Auth::login($user);
+        Auth::login($user);
 
         return response()->json([
             'user' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                ],
-                'message' => 'User registered successfully'], 201);
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ],
+            'message' => 'User registered successfully'
+        ], 201);
     }
-    
+
     public function login(LoginRequest $request)
     {
         $validated = $request->validated();
-        
+
         $user = User::where('email', $validated['email'])->first();
-        
+
         if (!$user || !Hash::check($validated['password'], $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
         $request->session()->regenerate();
 
-        return response()->json(['message' => 'Logged in successfully']);
+        return response()->json(['user' => [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+        ], 'message' => 'Logged in successfully']);
     }
 
     public function logout(Request $request)
@@ -54,4 +59,19 @@ class AuthController extends Controller
     }
 
 
+    public function me(Request $request)
+    {
+        // Check if user is authenticated
+        if (!Auth::check()) {
+            return response()->json([
+                'authenticated' => false,
+                'message' => 'Not authenticated'
+            ], 401);
+        }
+
+        return response()->json([
+            'authenticated' => true,
+            'user' => Auth::user()
+        ]);
+    }
 }

@@ -1,9 +1,9 @@
-import React from "react";
-import { useAppointment } from "../context/AppointmentProvider";
+import React, { useContext } from "react";
+import { AppointmentContext } from "../context/AppointmentProvider";
 
 
 export const TimeStep = ({ back, next }) => {
-   const { date, setDate, time, setTime } = useAppointment();
+   const { date, setDate, time, setTime } = useContext(AppointmentContext);
 
   return (
     <div>

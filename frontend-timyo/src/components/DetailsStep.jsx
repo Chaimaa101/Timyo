@@ -1,9 +1,11 @@
-import React from "react";
-import { useAppointment } from "../context/AppointmentProvider";
+import React, { useContext } from "react";
+
+import { AppointmentContext } from "../context/AppointmentProvider";
+import { AuthContext } from "../context/AuthProvider";
 
 export const DetailsStep = ({ back, next }) => {
-   const { firstName, setFirstName, lastName, setLastName, email, setEmail } =
-    useAppointment();
+   const { user } = useContext(AuthContext);
+   const { phone,setPhone } = useContext(AppointmentContext);
   return (
     <div>
       <p className="text-lg font-medium mb-4">Enter your details:</p>
@@ -13,18 +15,20 @@ export const DetailsStep = ({ back, next }) => {
           <label className="block mb-1 text-sm font-medium">First Name</label>
           <input
             type="text"
-            value={firstName}
+            value={user?.firstName}
             onChange={(e) => setFirstName(e.target.value)}
             className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-lime-800"
+            readOnly
           />
         </div>
         <div>
           <label className="block mb-1 text-sm font-medium">Last Name</label>
           <input
             type="text"
-            value={lastName}
+            value={user?.lastName}
             onChange={(e) => setLastName(e.target.value)}
             className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-lime-800"
+            readOnly
           />
         </div>
       </div>
@@ -32,8 +36,18 @@ export const DetailsStep = ({ back, next }) => {
         <label className="block mb-1 text-sm font-medium">Email</label>
         <input
           type="email"
-          value={email}
+          value={user?.email}
           onChange={(e) => setEmail(e.target.value)}
+          className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-lime-800"
+          readOnly
+        />
+      </div>
+      <div className="mb-6">
+        <label className="block mb-1 text-sm font-medium">Phone</label>
+        <input
+          type="text"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
           className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-lime-800"
         />
       </div>

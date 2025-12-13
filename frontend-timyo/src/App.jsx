@@ -9,6 +9,7 @@ import ListeUsers from "./pages/Admin/ListeUsers";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import UserDashboard from "./pages/User/UserDashboard";
 import { Toaster } from "react-hot-toast";
+import MyAppointment from "./pages/User/MyAppointment";
 
 function App() {
   return (
@@ -22,10 +23,10 @@ function App() {
           <Route path="/" element={<Header />}>
             <Route index element={<Home />} />
             <Route path="/appointmentForm" element={<AppointmentForm />} />
-            <Route path="/myAppointments" element={<AppointmentForm />} />
-            <Route path="/amdinPage" element={<AdminDashboard />} />
+            <Route path="/myAppointments" element={<MyAppointment />} />
+            <Route path="/adminPage" element={<AdminDashboard />} />
             <Route path="/userPage" element={<UserDashboard />} />
-            <Route path="/liatAppoint" element={<ListAppointment />} />
+            <Route path="/listAppoint" element={<ListAppointment />} />
             <Route path="/listUsers" element={<ListeUsers />} />
           </Route>
         </Routes>

@@ -1,9 +1,9 @@
-import React from "react";
-import { useAppointment } from "../context/AppointmentProvider";
+import React, { use, useContext } from "react";
+import { AppointmentContext } from "../context/AppointmentProvider";
 
 
 export const ServiceStep = ({  next }) => {
-  const { service, setService, doctor, setDoctor } = useAppointment();
+  const { service, setService, doctor, setDoctor } = useContext(AppointmentContext);
   return (
     <div>
       <p className="text-lg font-medium mb-4">Please select service:</p>

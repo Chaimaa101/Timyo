@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\appointment;
 use App\Http\Requests\StoreappointmentRequest;
 use App\Http\Requests\UpdateappointmentRequest;
+use App\Models\Appointment ;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -15,7 +15,7 @@ class AppointmentController extends Controller
     public function index()
     {
         try {
-            return appointment::with('user')->get();
+            return Appointment::with('user')->get();
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
@@ -37,7 +37,7 @@ class AppointmentController extends Controller
     {
         try {
             $data = $request->validated();
-            $request->user()->appointments()->create($data);
+            Appointment::create($data);
             return ['message' => 'done'];
         } catch (\Throwable $th) {
             return $th->getMessage();
@@ -49,7 +49,7 @@ class AppointmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateappointmentRequest $request, appointment $appointment)
+    public function update(UpdateappointmentRequest $request, Appointment $appointment)
     {
         try {
             $data = $request->validated();
@@ -63,7 +63,7 @@ class AppointmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(appointment $appointment)
+    public function destroy(Appointment $appointment)
     {
         try {
             $appointment->delete();

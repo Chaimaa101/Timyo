@@ -10,43 +10,47 @@ function AuthProvider({ children }) {
 
   const checkAuth = async () => {
     try {
+      await getCsrfCookie();
 
       const res = await api.get("/user");
 
-      setUser(res.data);
-      console.log("User authenticated:", res.data);
+      setUser(res.data.user);
+   
     } catch (error) {
-      console.log("Auth check failed:", error.message);
+       if (error.response?.status === 401) {
+        console.log("User is not authenticated (401)");
+      }
       setUser(null);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
+ const login = async (email, password) => {
+  try {
+    setLoading(true);
+
+    await getCsrfCookie();
+    await api.post("/login", { email, password });
+
     checkAuth();
-  }, []);
 
-  const login = async (email, password) => {
-    try {
-      setLoading(true);
-
-      await getCsrfCookie();
-
-      const res = await api.post(`/login`, { email, password });
-      toast.success(res.data.message || "Login successful!");
-
-      await checkAuth();
-    } catch (error) {
-      console.log(
-        "Login error: " +
-          (error.response?.data?.message || "Invalid credentials")
-      );
-      return { success: false, error: error.response?.data };
-    } finally {
-      setLoading(false);
-    }
-  };
+    return {
+      success: true,
+      user: res.data.user,
+    };
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message || "Invalid credentials"
+    );
+    return {
+      success: false,
+      error: error.response?.data,
+    };
+  } finally {
+    setLoading(false);
+  }
+};
 
   const register = async (
     firstName,
@@ -67,18 +71,24 @@ function AuthProvider({ children }) {
         password_confirmation,
       });
 
-      toast.success(res.data.message || "Registration successful!");
+     
       await checkAuth();
-    } catch (error) {
-      toast.error(
-        "Register error: " +
-          (error.response?.data?.message || "Registration failed")
-      );
-      return { success: false, error: error.response?.data };
-    } finally {
-      setLoading(false);
-    }
-  };
+    return {
+      success: true,
+      user: res.data.user,
+    };
+  } catch (error) {
+    toast.error(
+      error.response?.data?.message 
+    );
+    return {
+      success: false,
+      error: error.response?.data,
+    };
+  } finally {
+    setLoading(false);
+  }
+};
 
   const logout = async () => {
     try {
@@ -89,7 +99,9 @@ function AuthProvider({ children }) {
       toast.error("Logout error");
     }
   };
-
+     useEffect(() => {
+        checkAuth();
+      }, []);
   return (
     <AuthContext.Provider
       value={{

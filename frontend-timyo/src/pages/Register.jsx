@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
+import toast from "react-hot-toast";
 
 export default function Register() {
   const [firstName, setFirstName] = useState("");
@@ -8,11 +10,24 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [password_confirmation, setPasswordConfirmation] = useState("");
 
-  const { register } =useContext(AuthContext)
+  const { register } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    register(firstName,lastName, email, password, password_confirmation)
+
+   
+      const result = await register(firstName, lastName, email, password, password_confirmation);
+
+    if (!result.success) return;
+
+  toast.success("Registration successful!");
+
+  if (result.user.role === "admin") {
+    navigate("/adminPage");
+  } else {
+    navigate("/userPage");
+  }
   };
 
   return (

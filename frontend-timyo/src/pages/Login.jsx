@@ -1,20 +1,31 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
- 
 
-  const { login } =useContext(AuthContext)
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    login(email,password)
-   
+ const handleLogin = async (e) => {
+  e.preventDefault();
 
-  };
+  const result = await login(email, password);
+
+  if (!result.success) return;
+
+  toast.success("Login successful!");
+
+  if (result.user.role === "admin") {
+    navigate("/adminPage");
+  } else {
+    navigate("/userPage");
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
