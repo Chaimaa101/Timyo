@@ -1,13 +1,18 @@
-import React, { useContext, useEffect } from "react";
+import React, { use, useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserProvider.jsx";
 
 function ListeUsers() {
-  const { users, loading, deleteUser } = useContext(UserContext);
+  const { users, loading, deleteUser ,updateUser} = useContext(UserContext);
+  const [role,setRole]=useState('');
 
+  
+  const handleUpdate = (id) => {
+    updateUser(id, { role });
+  };
 
   return (
     <>
-    <div className=" container max-w-7xl mx-auto px-4 mt-10">
+    <div className="container max-w-7xl mx-auto px-4 mt-10">
   
       <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
     
@@ -25,6 +30,7 @@ function ListeUsers() {
                 <th className="px-6 py-3">First Name</th>
                 <th className="px-6 py-3">Last Name</th>
                 <th className="px-6 py-3">Email</th>
+                <th className="px-6 py-3">Role</th>
                 <th className="px-6 py-3 text-center">Actions</th>
               </tr>
             </thead>
@@ -41,7 +47,7 @@ function ListeUsers() {
               {!loading && users.length === 0 && (
                 <tr>
                   <td colSpan="4" className="text-center py-6 text-gray-400">
-                    No users found
+                    aucun utiliisateur trouvé
                   </td>
                 </tr>
               )}
@@ -61,6 +67,13 @@ function ListeUsers() {
                     <td className="px-6 py-4 text-gray-600">
                       {u.email}
                     </td>
+                    <td className="px-6 py-4 text-gray-600">
+                      <select name="role" id="role" onChange={(e)=>setRole(e.target.value)} className="p-2 border rounded-lg">
+                        <option value={u.role} selected>{u.role}</option>
+                        <option value="user" >user</option>
+                        <option value="admin">admin</option>
+                      </select>
+                    </td>
                     <td className="px-6 py-4 text-center space-x-2">
                       <button
                         onClick={() => deleteUser(u.id)}
@@ -70,6 +83,7 @@ function ListeUsers() {
                       </button>
 
                       <button
+                      onClick={() => handleUpdate(u.id)}
                         className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-black bg-cyan-300 rounded-lg hover:bg-cyan-600 transition"
                       >
                         Update

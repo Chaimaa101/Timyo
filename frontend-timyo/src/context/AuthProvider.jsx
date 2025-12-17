@@ -31,22 +31,16 @@ function AuthProvider({ children }) {
     setLoading(true);
 
     await getCsrfCookie();
-    await api.post("/login", { email, password });
+    const res = await api.post("/login", { email, password });
 
-    checkAuth();
+    await checkAuth();
 
     return {
       success: true,
       user: res.data.user,
     };
   } catch (error) {
-    toast.error(
-      error.response?.data?.message || "Invalid credentials"
-    );
-    return {
-      success: false,
-      error: error.response?.data,
-    };
+    console.log(error)
   } finally {
     setLoading(false);
   }
@@ -71,20 +65,16 @@ function AuthProvider({ children }) {
         password_confirmation,
       });
 
-     
       await checkAuth();
     return {
       success: true,
       user: res.data.user,
     };
   } catch (error) {
-    toast.error(
+    console.error(
       error.response?.data?.message 
     );
-    return {
-      success: false,
-      error: error.response?.data,
-    };
+
   } finally {
     setLoading(false);
   }
@@ -94,14 +84,15 @@ function AuthProvider({ children }) {
     try {
       await api.post("/logout");
       setUser(null);
-      toast.success("Logged out successfully");
+      toast.success("Donnexion effectuée avec succès");
     } catch (error) {
       toast.error("Logout error");
     }
   };
      useEffect(() => {
         checkAuth();
-      }, []);
+      }, [checkAuth]);
+
   return (
     <AuthContext.Provider
       value={{
@@ -109,7 +100,6 @@ function AuthProvider({ children }) {
         login,
         register,
         logout,
-        checkAuth,
         loading,
       }}
     >

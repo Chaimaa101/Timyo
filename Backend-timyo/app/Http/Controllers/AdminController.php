@@ -11,8 +11,8 @@ class AdminController extends Controller
     public function approve(Appointment $appointment)
     {
         try {
-            $status = 'approved';
-            $appointment->update(['status' => $status]);
+            $statut = 'approved';
+            $appointment->update(['statut' => $statut]);
 
             return response()->json(['message' => 'Appointment approved successfully']);
         } catch (\Throwable $th) {
@@ -23,8 +23,8 @@ class AdminController extends Controller
     public function reject(Appointment $appointment)
     {
         try {
-            $status = 'rejected';
-            $appointment->update(['status' => $status]);
+            $statut = 'rejected';
+            $appointment->update(['statut' => $statut]);
 
             return response()->json(['message' => 'Appointment rejected successfully']);
         } catch (\Throwable $th) {

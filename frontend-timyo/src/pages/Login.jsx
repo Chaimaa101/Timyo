@@ -15,9 +15,13 @@ export default function Login() {
 
   const result = await login(email, password);
 
-  if (!result.success) return;
+  if (result.success) {
+    toast.success("Login successful!");
+  }else{
+    
+    toast.error("error !");
+  }
 
-  toast.success("Login successful!");
 
   if (result.user.role === "admin") {
     navigate("/adminPage");
@@ -33,7 +37,7 @@ export default function Login() {
         onSubmit={handleLogin}
         className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md"
       >
-        <h2 className="text-2xl font-semibold mb-6 text-center">Login</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-center">Connexion</h2>
 
         <div className="mb-4">
           <label className="block mb-1 font-medium">Email</label>
@@ -47,7 +51,7 @@ export default function Login() {
         </div>
 
         <div className="mb-6">
-          <label className="block mb-1 font-medium">Password</label>
+          <label className="block mb-1 font-medium">Mot de passe </label>
           <input
             type="password"
             className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-lime-600"
@@ -61,7 +65,7 @@ export default function Login() {
           type="submit"
           className="w-full bg-lime-700 text-white p-3 rounded-xl hover:bg-lime-800"
         >
-          Login
+          se connecter
         </button>
       </form>
     </div>

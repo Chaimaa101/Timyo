@@ -16,12 +16,14 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-   
       const result = await register(firstName, lastName, email, password, password_confirmation);
 
-    if (!result.success) return;
+    if (result?.success){
+      toast.success("Registration successful!");
+    }else{
+      toast.error('error')
+    }
 
-  toast.success("Registration successful!");
 
   if (result.user.role === "admin") {
     navigate("/adminPage");
@@ -35,14 +37,14 @@ export default function Register() {
       <form
         onSubmit={handleRegister}
         className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md"
-      >
-        <h2 className="text-2xl font-semibold mb-6 text-center">
-          Create Account
+          >
+            <h2 className="text-2xl font-semibold mb-6 text-center">
+              Créer un compte
         </h2>
 
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
-            <label className="block mb-1 font-medium">First Name</label>
+            <label className="block mb-1 font-medium">Nom</label>
             <input
               type="text"
               className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-lime-600"
@@ -53,7 +55,7 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="block mb-1 font-medium">Last Name</label>
+            <label className="block mb-1 font-medium">Prénom</label>
             <input
               type="text"
               className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-lime-600"
@@ -76,7 +78,7 @@ export default function Register() {
         </div>
 
         <div className="mb-6">
-          <label className="block mb-1 font-medium">Password</label>
+          <label className="block mb-1 font-medium">Mot de passe</label>
           <input
             type="password"
             className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-lime-600"
@@ -86,7 +88,7 @@ export default function Register() {
           />
         </div>
         <div className="mb-6">
-          <label className="block mb-1 font-medium">Password Confirmation</label>
+          <label className="block mb-1 font-medium">Confirmation du mot de passe</label>
           <input
             type="password"
             className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-lime-600"
@@ -100,7 +102,7 @@ export default function Register() {
           type="submit"
           className="w-full bg-lime-700 text-white p-3 rounded-xl hover:bg-lime-800"
         >
-          Register
+          S'inscrire
         </button>
       </form>
     </div>

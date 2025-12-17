@@ -1,23 +1,29 @@
 import React, { useContext, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
+import Button from "./button";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  // Define links based on role
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  }
+
   const commonLinks = [
     { name: "Accueil", path: "/" },
-    { name: "RDV", path: "/appointmentForm" },
+    { name: "Réserver un rendez-vous", path: "/appointmentForm" },
   ];
 
   const userLinks = [
-    { name: "My Dashboard", path: "/userPage" },
+    { name: "Mon espace", path: "/userPage" },
   ];
 
   const adminLinks = [
-    { name: "Admin Dashboard", path: "/adminPage" },
+    { name: "Espace administrateur", path: "/adminPage" },
   ];
 
   let linksToShow = [...commonLinks];
@@ -28,11 +34,9 @@ export default function Header() {
     <>
       <nav className="bg-lime-200 shadow-md fixed top-0 left-0 w-full z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          
-          {/* Logo */}
+
           <h1 className="text-2xl font-bold text-lime-700">Timyo</h1>
 
-          {/* Desktop Links */}
           <ul className="hidden md:flex space-x-8 text-gray-700 font-medium flex-1 justify-center">
             {linksToShow.map((link) => (
               <Link key={link.path} to={link.path} className="hover:text-lime-700">
@@ -41,7 +45,6 @@ export default function Header() {
             ))}
           </ul>
 
-          {/* Right section */}
           <div className="hidden md:flex space-x-4">
             {user ? (
               <>
@@ -49,31 +52,20 @@ export default function Header() {
                   Hello {user.role === "admin" ? "Admin" : user.firstName}
                 </span>
                 <button
-                  onClick={logout}
-                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                  onClick={handleLogout}
+                  className= "ml-2 bg-rose-500 hover:bg-rose-600 text-white px-3 py-1 rounded"
                 >
-                  Logout
+                  Se déconnecter
                 </button>
               </>
             ) : (
               <>
-                <Link
-                  to="/login"
-                  className="bg-yellow-400 hover:bg-yellow-500 px-3 py-1 rounded font-semibold"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="bg-green-400 hover:bg-green-500 px-3 py-1 rounded font-semibold"
-                >
-                  Register
-                </Link>
+               <Button name="Login" color="lime"/>
+                <Button name="Register" color="teal"/>
               </>
             )}
           </div>
 
-          {/* Mobile Hamburger */}
           <button
             className="md:hidden focus:outline-none"
             onClick={() => setOpen(!open)}
@@ -82,7 +74,6 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {open && (
           <ul className="md:hidden bg-white border-t shadow-md px-6 py-4 space-y-4 text-gray-700 font-medium">
             {linksToShow.map((link) => (
@@ -93,16 +84,15 @@ export default function Header() {
               </li>
             ))}
 
-            {/* Mobile right section */}
             <li>
               {user ? (
                 <div className="flex flex-col space-y-2">
                   <span className="font-semibold text-gray-700">
-                    Hello {user.role === "admin" ? "Admin" : user.name}
+                    Hello {user.role === "admin" ? "Admin" : user.firstName}
                   </span>
                   <button
                     onClick={logout}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 w-30 rounded"
                   >
                     Logout
                   </button>
@@ -111,15 +101,15 @@ export default function Header() {
                 <div className="flex flex-col space-y-2">
                   <Link
                     to="/login"
-                    className="bg-yellow-400 hover:bg-yellow-500 px-3 py-1 rounded font-semibold"
+                    className="bg-yellow-400 hover:bg-yellow-500 px-3 py-1 w-30 rounded font-semibold"
                   >
-                    Login
+                    Se connecter
                   </Link>
                   <Link
                     to="/register"
-                    className="bg-green-400 hover:bg-green-500 px-3 py-1 rounded font-semibold"
+                    className="bg-green-400 hover:bg-green-500 px-3 py-1 w-30 rounded font-semibold"
                   >
-                    Register
+                    S’inscrire
                   </Link>
                 </div>
               )}
@@ -129,7 +119,6 @@ export default function Header() {
       </nav>
 
       <div className="pt-24">
-        {/* Outlet for nested routes */}
         <Outlet />
       </div>
     </>

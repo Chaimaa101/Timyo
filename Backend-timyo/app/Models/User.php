@@ -18,7 +18,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-'firstName' ,'lastName' ,      'email',
+        'firstName',
+        'lastName',
+        'email',
         'password',
         'role'
     ];
@@ -43,7 +45,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function appointments(){
+    public function appointments()
+    {
         return $this->hasMany(Appointment::class);
     }
 }

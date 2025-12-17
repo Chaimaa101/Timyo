@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Home() {
  
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-6">
+    <div className=" bg-white flex items-center justify-center px-6">
       <div className="max-w-6xl w-full grid md:grid-cols-2 gap-10 items-center">
 
       
@@ -18,20 +18,18 @@ function Home() {
 
         <div>
           <h1 className="text-4xl font-bold text-slate-700">
-            Appointment <span className="text-lime-500">Booking</span>
+            Réservation <span className="text-lime-500"> Rendez-vous</span>
           </h1>
 
           <p className="text-gray-600 mt-4 leading-relaxed">
-            Book appointments easily with our modern online scheduling
-            system. Select your preferred date and time, avoid waiting,
-            and manage your reservations with just one click.
+            Simplifiez la gestion de vos rendez-vous avec Timyo, votre solution tout-en-un pour réserver, organiser et suivre vos consultations en toute simplicité.
           </p>
 
           <Link
             to="/appointmentForm"
             className="mt-6 inline-block bg-lime-400 text-lime-900 font-semibold px-6 py-3 rounded-lg hover:bg-lime-600 transition"
           >
-            Read More
+            Réserver maintenant
           </Link>
         </div>
       </div>

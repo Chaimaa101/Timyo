@@ -41,6 +41,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
         $request->session()->regenerate();
+        Auth::login($user);
 
         return response()->json(['user' => [
             'id' => $user->id,
@@ -61,7 +62,7 @@ class AuthController extends Controller
 
     public function me(Request $request)
     {
-        // Check if user is authenticated
+    
         if (!Auth::check()) {
             return response()->json([
                 'authenticated' => false,

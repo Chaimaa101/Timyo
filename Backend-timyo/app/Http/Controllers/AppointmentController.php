@@ -6,6 +6,7 @@ use App\Http\Requests\StoreappointmentRequest;
 use App\Http\Requests\UpdateappointmentRequest;
 use App\Models\Appointment ;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
@@ -21,7 +22,7 @@ class AppointmentController extends Controller
         }
     }
 
-    public function myAppointment(Request $request)
+    public function myAppointments(Request $request)
     {
         try {
             return $request->user()->appointments()->get();
@@ -37,7 +38,7 @@ class AppointmentController extends Controller
     {
         try {
             $data = $request->validated();
-            Appointment::create($data);
+            $request->user()->appointments()->create($data);
             return ['message' => 'done'];
         } catch (\Throwable $th) {
             return $th->getMessage();
