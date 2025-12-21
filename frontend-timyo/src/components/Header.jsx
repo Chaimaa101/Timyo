@@ -15,7 +15,7 @@ export default function Header() {
 
   const commonLinks = [
     { name: "Accueil", path: "/" },
-    { name: "Réserver un rendez-vous", path: "/appointmentForm" },
+    { name: "Réserver", path: "/appointmentForm" },
   ];
 
   const userLinks = [
@@ -23,7 +23,7 @@ export default function Header() {
   ];
 
   const adminLinks = [
-    { name: "Espace administrateur", path: "/adminPage" },
+    { name: "Administrateur", path: "/adminPage" },
   ];
 
   let linksToShow = [...commonLinks];

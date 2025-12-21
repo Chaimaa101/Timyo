@@ -24,8 +24,11 @@ class AuthController extends Controller
         return response()->json([
             'user' => [
                 'id' => $user->id,
-                'name' => $user->name,
+                'firstName' => $user->firstName,
+                'lastName' => $user->lastName,
                 'email' => $user->email,
+                'role' => $user->role
+
             ],
             'message' => 'User registered successfully'
         ], 201);
@@ -40,13 +43,17 @@ class AuthController extends Controller
         if (!$user || !Hash::check($validated['password'], $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
+
+        auth()->login($user);
+
         $request->session()->regenerate();
-        Auth::login($user);
+
 
         return response()->json(['user' => [
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
+            'role' => $user->role
         ], 'message' => 'Logged in successfully']);
     }
 
@@ -57,22 +64,5 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return response()->json(['message' => 'Logged out successfully']);
-    }
-
-
-    public function me(Request $request)
-    {
-    
-        if (!Auth::check()) {
-            return response()->json([
-                'authenticated' => false,
-                'message' => 'Not authenticated'
-            ], 401);
-        }
-
-        return response()->json([
-            'authenticated' => true,
-            'user' => Auth::user()
-        ]);
     }
 }

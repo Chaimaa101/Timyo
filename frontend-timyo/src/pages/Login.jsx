@@ -7,7 +7,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login } = useContext(AuthContext);
+  const { login ,user} = useContext(AuthContext);
   const navigate = useNavigate();
 
  const handleLogin = async (e) => {
@@ -23,7 +23,7 @@ export default function Login() {
   }
 
 
-  if (result.user.role === "admin") {
+  if (user.role === "admin") {
     navigate("/adminPage");
   } else {
     navigate("/userPage");

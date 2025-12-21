@@ -1,27 +1,17 @@
 // services/axios.js
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: 'http://localhost:8000/api', 
-  withCredentials: true, 
-  headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'X-XSRF-TOKEN': decodeURIComponent(document.cookie
-      .split('; ')
-      .find(row => row.startsWith('XSRF-TOKEN='))
-      ?.split('=')[1] || ''),
-  }
-});
+axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
+
 
 export const getCsrfCookie = async () => {
   try {
-    await api.get('/sanctum/csrf-cookie', {
-      baseURL: 'http://localhost:8000' 
-    });
+    await axios.get('/sanctum/csrf-cookie');
   } catch (error) {
     console.error('Failed to get CSRF cookie:', error);
   }
 };
 
-export default api;
+export default axios;

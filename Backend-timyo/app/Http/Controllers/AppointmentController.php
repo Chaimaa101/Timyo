@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreappointmentRequest;
 use App\Http\Requests\UpdateappointmentRequest;
 use App\Models\Appointment ;
+use App\Notifications\NewAppointmentNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,7 +39,10 @@ class AppointmentController extends Controller
     {
         try {
             $data = $request->validated();
-            $request->user()->appointments()->create($data);
+            $appointment = $request->user()->appointments()->create($data);
+
+            $request->user()->notify(new NewAppointmentNotification($appointment));
+
             return ['message' => 'done'];
         } catch (\Throwable $th) {
             return $th->getMessage();

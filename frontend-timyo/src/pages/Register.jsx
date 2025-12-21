@@ -20,16 +20,11 @@ export default function Register() {
 
     if (result?.success){
       toast.success("Registration successful!");
+    navigate("/userPage");
+
     }else{
       toast.error('error')
     }
-
-
-  if (result.user.role === "admin") {
-    navigate("/adminPage");
-  } else {
-    navigate("/userPage");
-  }
   };
 
   return (

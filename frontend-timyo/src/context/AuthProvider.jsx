@@ -1,43 +1,28 @@
 import { createContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import api, { getCsrfCookie } from "../services/axios";
+import axios, { getCsrfCookie } from "../services/axios";
 
 export const AuthContext = createContext(null);
 
 function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const checkAuth = async () => {
-    try {
-      await getCsrfCookie();
-
-      const res = await api.get("/user");
-
-      setUser(res.data.user);
-   
-    } catch (error) {
-       if (error.response?.status === 401) {
-        console.log("User is not authenticated (401)");
-      }
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  };
 
  const login = async (email, password) => {
   try {
     setLoading(true);
 
     await getCsrfCookie();
-    const res = await api.post("/login", { email, password });
+    const res = await axios.post("api/login", { email, password });
 
-    await checkAuth();
-
+    console.log(res)  
+    setLoggedIn(true)
+    setUser( res.data.user)
     return {
       success: true,
-      user: res.data.user,
+      loggedIn: loggedIn
     };
   } catch (error) {
     console.log(error)
@@ -57,7 +42,7 @@ function AuthProvider({ children }) {
       setLoading(true);
 
       await getCsrfCookie();
-      const res = await api.post(`/register`, {
+      const res = await axios.post(`api/register`, {
         firstName,
         lastName,
         email,
@@ -65,10 +50,16 @@ function AuthProvider({ children }) {
         password_confirmation,
       });
 
-      await checkAuth();
+     
+      console.log(res)
+
+  setLoggedIn(true)
+    setUser( res.data.user)
+
     return {
       success: true,
-      user: res.data.user,
+      loggedIn: loggedIn,
+  
     };
   } catch (error) {
     console.error(
@@ -82,17 +73,20 @@ function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      await api.post("/logout");
+      await axios.post("api/logout");
       setUser(null);
       toast.success("Donnexion effectuée avec succès");
+      setLoggedIn(false)
+    return {
+      success: true,
+      loggedIn: loggedIn,
+    user: res.data.user
+
+    };
     } catch (error) {
       toast.error("Logout error");
     }
   };
-     useEffect(() => {
-        checkAuth();
-      }, [checkAuth]);
-
   return (
     <AuthContext.Provider
       value={{

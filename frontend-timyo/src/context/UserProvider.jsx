@@ -1,6 +1,6 @@
 import { createContext, use, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import api from "../services/axios";
+import axios from "../services/axios";
 
 export const UserContext = createContext();
 
@@ -11,7 +11,7 @@ export function UserProvider({ children }) {
   const getUsers = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/users");
+      const res = await axios.get("api/users");
       setUsers(res.data);
     } catch (error) {
       console.error("Echec du chargement des utilisateurs");
@@ -23,7 +23,7 @@ export function UserProvider({ children }) {
 
   const updateUser = async (id) => {
     try {
-      await api.put(`/users/${id}`);
+      await axios.put(`api/users/${id}`);
       toast.success(" Utilisateur mis à jour avec succès");
     } catch (error) {
       console.error("Echec de la mise à jour de l'utilisateur",error);
@@ -31,7 +31,7 @@ export function UserProvider({ children }) {
   };
   const deleteUser = async (id) => {
     try {
-      await api.delete(`/users/${id}`);
+      await axios.delete(`api/users/${id}`);
       setUsers((prev) => prev.filter((u) => u.id !== id));
       toast.success("Utilisateur supprimé avec succès");
     } catch (error) {
@@ -39,9 +39,9 @@ export function UserProvider({ children }) {
     }
   };
 
-  useEffect(() => {   
-    getUsers();
-  }, []); 
+  // useEffect(() => {   
+  //   getUsers();
+  // }, []); 
 
 
   return (

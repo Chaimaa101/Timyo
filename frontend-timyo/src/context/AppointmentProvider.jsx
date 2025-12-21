@@ -1,6 +1,6 @@
 import { createContext, use, useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import api from "../services/axios";
+import axios from "../services/axios";
 
 export const AppointmentContext = createContext();
 
@@ -13,7 +13,7 @@ export function AppointmentProvider({ children }) {
   const getAppointments = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/appointments");
+      const res = await axios.get("api/appointments");
       setAppointments(res.data);
     } catch (error) {
       console.error("Echec du chargement des rendez-vous");
@@ -25,7 +25,7 @@ export function AppointmentProvider({ children }) {
   const getUserAppointments = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/Myappointments");
+      const res = await axios.get("api/Myappointments");
       setUserAppointments(res.data);
     } catch (error) {
       console.error(error);
@@ -36,7 +36,7 @@ export function AppointmentProvider({ children }) {
 
   const addAppointment = async (appointmentData) => {
     try {
-      const res = await api.post("/appointments", appointmentData);
+      const res = await axios.post("api/appointments", appointmentData);
 
       setErrors({});
       console.log(res.data);
@@ -50,7 +50,7 @@ export function AppointmentProvider({ children }) {
 
   const approveAppointment = async (id) => {
     try {
-      await api.put(`/appointments/${id}/approve`);
+      await axios.put(`api/appointments/${id}/approve`);
       toast.success("Rendez-vous approuvé");
       getAppointments();
 
@@ -63,7 +63,7 @@ export function AppointmentProvider({ children }) {
 
   const UpdateAppointment = async (id) => {
     try {
-      await api.put(`/appointments/${id}`);
+      await axios.put(`api/appointments/${id}`);
       toast.success("Rendez-vous modifié");
       getAppointments();
       return { success: true };
@@ -75,7 +75,7 @@ export function AppointmentProvider({ children }) {
 
   const rejectAppointment = async (id) => {
     try {
-      await api.put(`/appointments/${id}/reject`, { statut: "rejected" });
+      await axios.put(`api/appointments/${id}/reject`, { statut: "rejected" });
       toast.success("Rendez-vous rejeté");
       getAppointments();
       return { success: true };
@@ -86,7 +86,7 @@ export function AppointmentProvider({ children }) {
 
   const deleteAppointment = async (id) => {
     try {
-      await api.delete(`/appointments/${id}`);
+      await axios.delete(`api/appointments/${id}`);
       toast.success("Rendez-vous supprimé");
       getUserAppointments();
       return { success: true };
@@ -95,10 +95,10 @@ export function AppointmentProvider({ children }) {
       console.error(error);
     }
   };
-  useEffect(() => {
-    getAppointments();
-    getUserAppointments();
-  }, []);
+  // useEffect(() => {
+  //   getAppointments();
+  //   getUserAppointments();
+  // }, []);
 
   return (
     <AppointmentContext.Provider

@@ -17,11 +17,14 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+
 Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-   Route::get('/user', [AuthController::class, 'me']);
-    
+
 
     route::get('/Myappointments', [AppointmentController::class,'myAppointments']);
     route::post('/appointments', [AppointmentController::class,'store']);
@@ -40,6 +43,3 @@ Route::middleware(['auth:sanctum','isAdmin'])->group(function () {
 route::apiResource('users', UserController::class);
 });
 
-
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
