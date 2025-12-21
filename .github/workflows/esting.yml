@@ -15,3 +15,9 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+          WORKSPACE: Backend-timyo
+
+          VALIDATE_PHP: true
+          VALIDATE_JSON: true
+          VALIDATE_YAML: true
