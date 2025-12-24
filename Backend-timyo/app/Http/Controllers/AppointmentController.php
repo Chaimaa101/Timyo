@@ -35,7 +35,7 @@ class AppointmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    store(StoreappointmentRequest $request)
+    public function store(StoreappointmentRequest $request)
     {
         try {
             $data = $request->validated();
