@@ -25,12 +25,12 @@ jobs:
 
       - name: Copier le fichier .env
         run: cp .env.example .env
-        working-directory: Backend-timy
+        working-directory: Backend-timyo
 
       - name: Générer la clé
         run: php artisan key:generate
-        working-directory: Backend-timy
+        working-directory: Backend-timyo
 
       - name: Lancer les tests
         run: php artisan test
-        working-directory: Backend-timy
+        working-directory: Backend-timyo
